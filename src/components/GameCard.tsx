@@ -9,10 +9,10 @@ interface Props{
 export default function GameCard({game}: Props) {
   return (
 
-    <Card borderRadius={15} overflow={'hidden'}>
-        <Image src={game.background_image}/>
+    <Card >
+        <Image  height='200px' src={game.background_image}/>
         <CardBody>
-            <Heading fontSize='2x1'>{game.name}</Heading>
+            <Heading overflow={'hidden'} fontSize='2x1'>{game.name}</Heading>
             <HStack justifyContent={"space-between"}>
                 <PlatformIconList platforms={game.parent_platforms.map(p=> p.platform)}/>
                 <CritiScore score={game.metacritic}/>

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import apiClient from "../services/api-client"
+import useData from './useDate'
+
 
 export interface Platform {
     id :number,
@@ -16,22 +16,7 @@ export interface Game {
     metacritic : number
 }
 
-interface FetchGamesResponse {
-    count : number;
-    results : []
-}
 
-
-const useGame =() =>{
-    const [games, setGames ] = useState<Game []>([])
-    const [error , setError] = useState('')
-
-    useEffect(()=>{
-        apiClient.get<FetchGamesResponse>('/games').then(res => setGames(res.data.results)).catch(errors => setError(errors.message))
-    }, [])
-    return {games, error} 
-    
-
-}
+const useGame =() => useData<Game>('/games')
 
 export default useGame;
