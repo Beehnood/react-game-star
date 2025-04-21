@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
-import { Platform } from "./useGame";
+import { AxiosRequestConfig } from "axios";
 
 
 
-interface FetchResponse <T>{
+
+interface IFetchResponse <T>{
   count: number;
   results: T[];
 }
 
-const useGenres = <T>(endpoint : string) => {
+const useGenres = <T>(endpoint : string, requestConfig?:AxiosRequestConfig, deps?: any[]) => {
   const [data, setGenres] = useState<T[]>([]);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +19,7 @@ const useGenres = <T>(endpoint : string) => {
     setIsLoading(true);
 
     apiClient
-      .get<FetchResponse<T>>(endpoint)
+      .get<IFetchResponse<T>>(endpoint, {...requestConfig})
       .then((res) => {
         setGenres(res.data.results);
         setIsLoading(false);
@@ -27,7 +28,7 @@ const useGenres = <T>(endpoint : string) => {
         setError(errors.message);
         setIsLoading(false);
       });
-  }, []);
+  }, deps ? [...deps] : []);
   return { data, error, isLoading };
 };
 export default useGenres;
